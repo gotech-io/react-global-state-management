@@ -1,0 +1,19 @@
+{
+  "voters": [
+    {
+      "id": 1,
+      "name": "Doron",
+      "vote": "LOVE_IT"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "vote": "HATE_IT"
+    },
+    {
+      "id": 3,
+      "name": "John Doe",
+      "vote": "LOVE_IT"
+    }
+  ]
+}

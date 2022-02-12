@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+  padding: 6px;
+}
+
+.yellow-border {
+  border: 2px solid #f5e025;
+  margin-bottom: 8px;
+}
+
+.cyan-border {
+  border: 2px solid cyan;
+  margin-bottom: 8px;
+}
+
+.magenta-border {
+  border: 2px solid magenta;
+  margin-bottom: 8px;
+}
