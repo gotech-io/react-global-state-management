@@ -7,12 +7,12 @@ import {
 import { VoteFilter, selectFilters } from './filterSlice';
 
 // encapsulates the logic of having normalized entities by ids
-const todosAdapter = createEntityAdapter();
+const votersAdapter = createEntityAdapter();
 
 // Initial state
-const initialState = todosAdapter.getInitialState({
+const initialState = votersAdapter.getInitialState({
   status: 'idle',
-  // entities: {}, not needed, because of todosAdapter
+  // entities: {}, not needed, because of votersAdapter
 });
 
 const votersSlice = createSlice({
@@ -27,13 +27,13 @@ const votersSlice = createSlice({
     });
     builder.addCase(getVoters.fulfilled, (state, action) => {
       state.status = 'idle';
-      todosAdapter.setAll(state, action.payload);
+      votersAdapter.setAll(state, action.payload);
     });
     builder.addCase(postNewVoter.fulfilled, (state, action) => {
-      todosAdapter.addOne(state, action.payload);
+      votersAdapter.addOne(state, action.payload);
     });
     builder.addCase(patchVoter.fulfilled, (state, action) => {
-      todosAdapter.updateOne(state, {
+      votersAdapter.updateOne(state, {
         id: action.payload.id,
         changes: action.payload,
       });
@@ -42,13 +42,13 @@ const votersSlice = createSlice({
 });
 
 // Thunks
-const getVoters = createAsyncThunk('todos/getVoters', async () => {
+const getVoters = createAsyncThunk('voters/getVoters', async () => {
   const response = await fetch('http://localhost:3001/voters');
   const voters = await response.json();
   return voters;
 });
 
-const postNewVoter = createAsyncThunk('todos/postNewVoter', async (name) => {
+const postNewVoter = createAsyncThunk('voters/postNewVoter', async (name) => {
   const newVoter = { name, vote: null };
   const response = await fetch('http://localhost:3001/voters', {
     method: 'POST',
@@ -62,7 +62,7 @@ const postNewVoter = createAsyncThunk('todos/postNewVoter', async (name) => {
 });
 
 const patchVoter = createAsyncThunk(
-  'todos/patchVoter',
+  'voters/patchVoter',
   // A thunk created this way always gets one parameter, so we must pass it as an object
   async ({ id, vote }) => {
     const response = await fetch(`http://localhost:3001/voters/${id}`, {
@@ -77,13 +77,15 @@ const patchVoter = createAsyncThunk(
   }
 );
 
-// Selectors
-const selectVoterEntities = (state) => state.voters.entities;
+// These are selectors that are created by the votersAdapter
+const selectors = votersAdapter.getSelectors((state) => state.voters);
+// selectors.selectById
+// selectors.selectEntities
+// selectors.selectTotal
+// selectors.selectIds
 
 // Memoized selectors
-const selectVoters = createSelector(selectVoterEntities, (entities) =>
-  Object.values(entities)
-);
+const selectVoters = selectors.selectAll;
 
 const selectVotersCount = createSelector(selectVoters, (voters) => {
   const total = voters.length;

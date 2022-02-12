@@ -7,15 +7,12 @@ const VoteFilter = {
   NotVoted: 'NOT_VOTED',
 };
 
-// Initial state
-const initialState = {
-  status: VoteFilter.All,
-};
-
 // The whole slice is defined at once
 const filtersSlice = createSlice({
   name: 'filters', // the prefix of the reducer filters/...
-  initialState,
+  initialState: {
+    status: VoteFilter.All,
+  },
   reducers: {
     voteFilterChanged(state, action) {
       state.status = action.payload; // is mutable thanks to immer library
