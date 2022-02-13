@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <h1>
-      Vote Redux! ({voted}/{total} already voted)
+      Vote Redux Toolkit! ({voted}/{total} already voted)
     </h1>
   );
 };
